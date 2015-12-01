@@ -3,8 +3,10 @@ from __future__ import division
 from copy import deepcopy
 import random
 import math
+import sys
+import os
 
-fileName = 'matrices.txt'
+fileName = os.getcwd() + '/MatrixClusters/' + sys.argv[1]
 ###################################### Environment Settings ##########################
 mat_size = 10
 incident_cnt = 50
