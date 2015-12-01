@@ -1,5 +1,7 @@
 mat_size = 10;
-average_over = 1;
+average_over = 100;
+cluster_cnt = 10;
+incident_cnt = 100;
 
 % Used for commenting multiple lines
 %{ 
@@ -41,10 +43,14 @@ lengths - Vector (numClusts x 1) containing the effective lengths used to genera
 
 op_end = 10;
 op_start = 0;
+file = strcat('matrixClust',int2str(cluster_cnt), '.txt') 
 for n = 1:average_over
 %Third Varibale is the number of clusters
 %Last item is the number of points
-[data cp idx] = generateData(1, 0.5, 5, 15, 15, 5, 1, 2, 200);
+[data cp idx] = generateData(1, 0.5, cluster_cnt, 15, 15, 5, 1, 2, incident_cnt);
+%Inputs: slope (1), slopeStd (2), numClusts (3), xClustAvgSep (4),
+%yClustAvgSep (5), lengthAvg (6), lengthStd (7), totalPoints (8)
+% ------------------------------
 %This creates 5 clusters with a total of 200 points, with a base slope of 1 (std=0.5),
 %separated in average by 15 units in both x and y directions, with average length of 5 units (std=1)
 %and a "fatness" or spread of 2 units.
@@ -72,5 +78,10 @@ max(y_new)
 M(:,1) = x_new
 M(:,2) = y_new 
 M
-dlmwrite('matrices.txt', M)
+if n == 1
+   dlmwrite(file, M);
+else
+  dlmwrite(file, M, '-append');  
+end
+
 end

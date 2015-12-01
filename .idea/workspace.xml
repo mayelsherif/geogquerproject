@@ -36,22 +36,22 @@
       <file leaf-file-name="queryAgentClustered.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/queryAgentClustered.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="6.8794966">
-              <caret line="375" column="34" selection-start-line="375" selection-start-column="34" selection-end-line="375" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="261" column="42" selection-start-line="261" selection-start-column="33" selection-end-line="261" selection-end-column="42" />
               <folding>
                 <element signature="e#21#52#0" expanded="true" />
-                <element signature="e#1059#1104#0" expanded="false" />
-                <element signature="e#1332#1398#0" expanded="false" />
-                <element signature="e#1426#1877#0" expanded="false" />
-                <element signature="e#2516#3035#0" expanded="false" />
-                <element signature="e#3073#3287#0" expanded="false" />
-                <element signature="e#3352#3799#0" expanded="false" />
-                <element signature="e#3824#3853#0" expanded="false" />
-                <element signature="e#4005#4087#0" expanded="false" />
-                <element signature="e#4127#4198#0" expanded="false" />
-                <element signature="e#4240#4434#0" expanded="false" />
-                <element signature="e#4491#4868#0" expanded="false" />
-                <element signature="e#4897#5358#0" expanded="false" />
+                <element signature="e#1061#1106#0" expanded="false" />
+                <element signature="e#1334#1400#0" expanded="false" />
+                <element signature="e#1428#1879#0" expanded="false" />
+                <element signature="e#2518#3037#0" expanded="false" />
+                <element signature="e#3075#3289#0" expanded="false" />
+                <element signature="e#3354#3801#0" expanded="false" />
+                <element signature="e#3826#3855#0" expanded="false" />
+                <element signature="e#4007#4089#0" expanded="false" />
+                <element signature="e#4129#4200#0" expanded="false" />
+                <element signature="e#4242#4436#0" expanded="false" />
+                <element signature="e#4493#4870#0" expanded="false" />
+                <element signature="e#4899#5360#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -65,6 +65,9 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -104,8 +107,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -132,6 +135,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Python.queryAgentClustered">
     <configuration default="false" name="queryAgentClustered" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -297,26 +302,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="26" width="1861" height="940" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2573885" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3295063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41676235" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41676235" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -365,18 +370,50 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#21#52#0" expanded="true" />
-            <element signature="e#1059#1104#0" expanded="false" />
-            <element signature="e#1332#1398#0" expanded="false" />
-            <element signature="e#1426#1877#0" expanded="false" />
-            <element signature="e#2516#3035#0" expanded="false" />
-            <element signature="e#3073#3287#0" expanded="false" />
-            <element signature="e#3352#3799#0" expanded="false" />
-            <element signature="e#3824#3853#0" expanded="false" />
-            <element signature="e#4005#4087#0" expanded="false" />
-            <element signature="e#4127#4198#0" expanded="false" />
-            <element signature="e#4240#4434#0" expanded="false" />
-            <element signature="e#4491#4868#0" expanded="false" />
-            <element signature="e#4897#5358#0" expanded="false" />
+            <element signature="e#1061#1106#0" expanded="false" />
+            <element signature="e#1334#1400#0" expanded="false" />
+            <element signature="e#1428#1879#0" expanded="false" />
+            <element signature="e#2518#3037#0" expanded="false" />
+            <element signature="e#3075#3289#0" expanded="false" />
+            <element signature="e#3354#3801#0" expanded="false" />
+            <element signature="e#3826#3855#0" expanded="false" />
+            <element signature="e#4007#4089#0" expanded="false" />
+            <element signature="e#4129#4200#0" expanded="false" />
+            <element signature="e#4242#4436#0" expanded="false" />
+            <element signature="e#4493#4870#0" expanded="false" />
+            <element signature="e#4899#5360#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/queryAgent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="207" column="17" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+          <folding>
+            <element signature="e#18#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/queryAgentClustered.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#21#52#0" expanded="true" />
+            <element signature="e#1061#1106#0" expanded="false" />
+            <element signature="e#1334#1400#0" expanded="false" />
+            <element signature="e#1428#1879#0" expanded="false" />
+            <element signature="e#2518#3037#0" expanded="false" />
+            <element signature="e#3075#3289#0" expanded="false" />
+            <element signature="e#3354#3801#0" expanded="false" />
+            <element signature="e#3826#3855#0" expanded="false" />
+            <element signature="e#4007#4089#0" expanded="false" />
+            <element signature="e#4129#4200#0" expanded="false" />
+            <element signature="e#4242#4436#0" expanded="false" />
+            <element signature="e#4493#4870#0" expanded="false" />
+            <element signature="e#4899#5360#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -407,22 +444,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/queryAgentClustered.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.8794966">
-          <caret line="375" column="34" selection-start-line="375" selection-start-column="34" selection-end-line="375" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="261" column="42" selection-start-line="261" selection-start-column="33" selection-end-line="261" selection-end-column="42" />
           <folding>
             <element signature="e#21#52#0" expanded="true" />
-            <element signature="e#1059#1104#0" expanded="false" />
-            <element signature="e#1332#1398#0" expanded="false" />
-            <element signature="e#1426#1877#0" expanded="false" />
-            <element signature="e#2516#3035#0" expanded="false" />
-            <element signature="e#3073#3287#0" expanded="false" />
-            <element signature="e#3352#3799#0" expanded="false" />
-            <element signature="e#3824#3853#0" expanded="false" />
-            <element signature="e#4005#4087#0" expanded="false" />
-            <element signature="e#4127#4198#0" expanded="false" />
-            <element signature="e#4240#4434#0" expanded="false" />
-            <element signature="e#4491#4868#0" expanded="false" />
-            <element signature="e#4897#5358#0" expanded="false" />
+            <element signature="e#1061#1106#0" expanded="false" />
+            <element signature="e#1334#1400#0" expanded="false" />
+            <element signature="e#1428#1879#0" expanded="false" />
+            <element signature="e#2518#3037#0" expanded="false" />
+            <element signature="e#3075#3289#0" expanded="false" />
+            <element signature="e#3354#3801#0" expanded="false" />
+            <element signature="e#3826#3855#0" expanded="false" />
+            <element signature="e#4007#4089#0" expanded="false" />
+            <element signature="e#4129#4200#0" expanded="false" />
+            <element signature="e#4242#4436#0" expanded="false" />
+            <element signature="e#4493#4870#0" expanded="false" />
+            <element signature="e#4899#5360#0" expanded="false" />
           </folding>
         </state>
       </provider>

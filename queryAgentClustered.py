@@ -15,7 +15,7 @@ firstStage_cnt = int(0.4*t_setting)
 k_setting = 5 # number of nearest neighbours
 ######################################## Approximation Settings #######################
 trial = 10000
-average_over = 1 #number of matrices in the file
+average_over = 100 #number of matrices in the file
 #######################################################################################
 
 
@@ -365,9 +365,9 @@ for j in range (0, average_over):
 
 
 
-print "Incident Cnt Random: " + str(incid_random/average_over)
-print "Incident Cnt Maximize: " + str(incid_max_disp/average_over)
-print "Incident Cnt Two Stage: " + str(incid_x_max_disp/average_over)
+print "Incidents Covered -- Cnt Random: " + str(incid_random/average_over)
+print "Incidents Covered -- Cnt Maximize: " + str(incid_max_disp/average_over)
+print "Incidents Covered -- Cnt Two Stage: " + str(incid_x_max_disp/average_over)
 
 
 
