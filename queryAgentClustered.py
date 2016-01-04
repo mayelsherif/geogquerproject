@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 from __future__ import division
 from copy import deepcopy
 import random
@@ -6,20 +6,24 @@ import math
 import sys
 import os
 
+
+
 fileName = os.getcwd() + '/MatrixClusters/' + sys.argv[1]
+firstStagePercentage = float(sys.argv[2])
+print "First Stage Percentage: " + str(firstStagePercentage)
 ###################################### Environment Settings ##########################
 mat_size = 10
 incident_cnt = 50
 crowd_cnt = 100 #--- current variable
 ####################################### Query Settings ###############################
 t_setting = 30  # t people to query
-firstStage_cnt = int(0.4*t_setting)
+firstStage_cnt = int(firstStagePercentage*t_setting)
 k_setting = 5 # number of nearest neighbours
 ######################################## Approximation Settings #######################
 trial = 10000
 average_over = 100 #number of matrices in the file
 #######################################################################################
-
+NN = True # Decide which dispersion metric to use
 
 class Point:
 	row = -1
@@ -54,6 +58,18 @@ def returnShuffled(x):
 	while x == x_copy:
 		random.shuffle(x)
 	return x
+
+def computeAvgDistNN(points):
+
+	dis =[]
+	for p in points:
+		points_copy = list(points)
+		points_copy.remove(p)
+		nn = getKNN(p, 1, points_copy)
+		dis.append(p.computeDistance(nn[0].row, nn[0].col))
+	return sum(dis)/ len(dis)
+
+
 
 def computeDisp(points):
 	mean_x = 0
@@ -90,7 +106,7 @@ def numToIndex(num):
 	return Point(row, col)
 	#return {'row':row, 'col':col}
 
-def maximizeDispersion(crowdPoints, n, trial_cnt):
+def maximizeDispersion(crowdPoints, n, trial_cnt, NN):
 	# crowdPoints is a list of  points
 	maxDisp = 0
 	maxCrowdList = []
@@ -99,14 +115,19 @@ def maximizeDispersion(crowdPoints, n, trial_cnt):
 	for i in range (0, trial_cnt):
 		random.shuffle(crowdPoints_copy) #shufflin in place
 		randomCrowd =  list(crowdPoints_copy[0:n])
-		disp = computeDisp(deepcopy(randomCrowd))
+		if NN == True:
+			disp = computeAvgDistNN(deepcopy(randomCrowd))
+		else:
+			disp = computeDisp(deepcopy(randomCrowd))
+
 		if (disp > maxDisp):
 			maxDisp = disp
 			maxCrowdList = list(randomCrowd)
 	return 	maxCrowdList
 
-def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints):
+def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints, NN):
 	# crowdPoints is a list of  points
+	# NN is true if you want to use the Nearest neighbor dispersion metric
 	maxDisp = 0
 	maxCrowdList = []
 	crowdPoints_copy = deepcopy(crowdPoints)
@@ -117,7 +138,10 @@ def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints):
 	for i in range (0, trial_cnt):
 		random.shuffle(newCrowdPoints) #shufflin in place
 		randomCrowd =  list(newCrowdPoints[0:n])
-		disp = computeDisp(deepcopy(randomCrowd))
+		if NN == True:
+			disp = computeAvgDistNN(deepcopy(randomCrowd))
+		else:
+			disp = computeDisp(deepcopy(randomCrowd))
 		if (disp > maxDisp):
 			maxDisp = disp
 			maxCrowdList = list(randomCrowd)
@@ -161,11 +185,12 @@ def TwoD_toPoints(TwoD_points):
 
 
 def intersectCnt(points1, points2):
-	cnt = 0
-	for p1 in points1:
-		if p1 in points2:
-			cnt += 1
-	return cnt
+	return len(list(set(points1) & set(points2)))
+	#cnt = 0
+	#for p1 in points1:
+	#	if p1 in points2:
+	#		cnt += 1
+	#return cnt
 
 def mergeWithoutRepition(list1, list2):
 #Assuming list1 and list2 do not have any repitiotions
@@ -245,7 +270,7 @@ def readFromFile_clustered(matNum):
 	return clusteredPoints_2D
 ##################################### Beginning of simulation ##########################################
 secondStage_cnt = t_setting - firstStage_cnt
-secondStage_perIncidentCnt = secondStage_cnt//incident_cnt
+#secondStage_perIncidentCnt = secondStage_cnt//incident_cnt
 
 
 
@@ -276,19 +301,21 @@ for j in range (0, average_over):
 	crowdPoints_shuffled_2D = pointsto2D(crowd_copy)
 
 	t_random_range = crowdPoints_shuffled_2D[0:t_setting]
-	t_max_coverage = maximizeDispersion(crowd_points_2D, t_setting, trial)
-	t_x_max_coverage = maximizeDispersion(crowd_points_2D, firstStage_cnt, trial)
+	t_max_coverage = maximizeDispersion(crowd_points_2D, t_setting, trial, NN)
+	t_x_max_coverage = maximizeDispersion(crowd_points_2D, firstStage_cnt, trial, NN)
 
 
 	#Convert numbers to points
 	t_random_range_1D = TwoD_toPoints(t_random_range)
+	t_random_range_1D.sort()
 	print "T Radom Range: " + str(t_random_range_1D)
 
 	t_max_coverage_1D = TwoD_toPoints(t_max_coverage)
+	t_max_coverage_1D.sort()
 	print "T Max Coverage: " + str(t_max_coverage_1D)
 
 	t_x_max_coverage_1D = TwoD_toPoints(t_x_max_coverage)
-	print "T X Max Coverage: " + str(t_x_max_coverage_1D)
+	#print "T X Max Coverage: " + str(t_x_max_coverage_1D)
 
 	t_secStage_max_covergae = []
 	secondStage_people_2D = []
@@ -306,7 +333,7 @@ for j in range (0, average_over):
 
 
 	if positive_feedbackCnt == 0: #if first stage does not yield any positive feedback maximize the dispersion
-		t_x_nn_secStage = maximizeDispersionExcludeFS(crowd_points_2D, secondStage_cnt, trial, t_x_max_coverage)
+		t_x_nn_secStage = maximizeDispersionExcludeFS(crowd_points_2D, secondStage_cnt, trial, t_x_max_coverage, NN)
 
 	else:
 		quota = secondStage_cnt
@@ -335,8 +362,18 @@ for j in range (0, average_over):
 		t_x_nn_secStage_1D = secondStage_people_1D
 
 
-
 	t_x_merged = mergeWithoutRepition(t_x_max_coverage_1D, t_x_nn_secStage_1D)
+	t_x_merged_2D = pointsto2D((t_x_merged))
+	t_x_merged.sort()
+	print "T Two-Stage: " + str(t_x_merged)
+
+	disp_random = computeDisp(t_random_range)
+	disp_max_cov = computeDisp(t_x_max_coverage)
+	disp_two_stage = computeDisp(t_x_merged_2D)
+
+	print 'Random Dispersion: ' + str(disp_random)
+	print 'Max Coverage Dispersion: ' + str(disp_max_cov)
+	print 'Two Stage Dispersion: ' + str(disp_two_stage)
 
 	#Test the success/failure of your metrics
 	if len(t_x_merged) != t_setting:

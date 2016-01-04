@@ -4,14 +4,14 @@ cluster_cnt = 10;
 incident_cnt = 100;
 
 % Used for commenting multiple lines
-%{ 
+
 for n = 1:average_over
     M = randi(2, mat_size); 
     M = M -1;
     M
     dlmwrite('matrices.txt', M, '-append')
-    end
-    %}
+end
+    
 
 % -----------------------Generate clustered data
 % ---------------------------------
@@ -40,7 +40,7 @@ slopes - Vector (numClusts x 1) containing the effective slopes used to generate
 lengths - Vector (numClusts x 1) containing the effective lengths used to generate clusters
 %}
 
-
+%{
 op_end = 10;
 op_start = 0;
 file = strcat('matrixClust',int2str(cluster_cnt), '.txt') 
@@ -85,3 +85,4 @@ else
 end
 
 end
+%}

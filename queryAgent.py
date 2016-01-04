@@ -3,21 +3,26 @@ from __future__ import division
 from copy import deepcopy
 import random
 import math
+import sys
+import os
 
 
+fileName = os.getcwd() + '/' + sys.argv[1]
+firstStagePercentage = float(sys.argv[2])
+print "First Stage Percentage: " + str(firstStagePercentage)
 ###################################### Environment Settings ##########################
 mat_size = 10
 incident_cnt = 50
 crowd_cnt = 100 #--- current variable
 ####################################### Query Settings ###############################
-t_setting = 90  # t people to query
-firstStage_cnt = int(0.4*t_setting)
+t_setting = 30  # t people to query
+firstStage_cnt = int(firstStagePercentage*t_setting)
 k_setting = 5 # number of nearest neighbours
 ######################################## Approximation Settings #######################
 trial = 10000
 average_over = 100 #number of matrices in the file
 #######################################################################################
-
+NN = True # Decide which dispersion metric to use
 
 class Point:
 	row = -1
@@ -50,6 +55,18 @@ def returnShuffled(x):
 	while x == x_copy:
 		random.shuffle(x)
 	return x
+
+
+def computeAvgDistNN(points):
+
+	dis =[]
+	for p in points:
+		points_copy = list(points)
+		points_copy.remove(p)
+		nn = getKNN(p, 1, points_copy)
+		dis.append(p.computeDistance(nn[0].row, nn[0].col))
+	return sum(dis)/ len(dis)
+
 
 def computeDisp(points):
 	mean_x = 0
@@ -86,23 +103,28 @@ def numToIndex(num):
 	return Point(row, col)
 	#return {'row':row, 'col':col}
 
-def maximizeDispersion(crowdPoints, n, trial_cnt):
+def maximizeDispersion(crowdPoints, n, trial_cnt, NN):
 	# crowdPoints is a list of  points
 	maxDisp = 0
 	maxCrowdList = []
 	crowdPoints_copy = deepcopy(crowdPoints)
-	
+
 	for i in range (0, trial_cnt):
 		random.shuffle(crowdPoints_copy) #shufflin in place
 		randomCrowd =  list(crowdPoints_copy[0:n])
-		disp = computeDisp(deepcopy(randomCrowd))
+		if NN == True:
+			disp = computeAvgDistNN(deepcopy(randomCrowd))
+		else:
+			disp = computeDisp(deepcopy(randomCrowd))
+
 		if (disp > maxDisp):
 			maxDisp = disp
 			maxCrowdList = list(randomCrowd)
 	return 	maxCrowdList	
 
-def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints):
+def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints, NN):
 	# crowdPoints is a list of  points
+	# NN is true if you want to use the Nearest neighbor dispersion metric
 	maxDisp = 0
 	maxCrowdList = []
 	crowdPoints_copy = deepcopy(crowdPoints)
@@ -113,7 +135,10 @@ def maximizeDispersionExcludeFS(crowdPoints, n, trial_cnt, firstStagePoints):
 	for i in range (0, trial_cnt):
 		random.shuffle(newCrowdPoints) #shufflin in place
 		randomCrowd =  list(newCrowdPoints[0:n])
-		disp = computeDisp(deepcopy(randomCrowd))
+		if NN == True:
+			disp = computeAvgDistNN(deepcopy(randomCrowd))
+		else:
+			disp = computeDisp(deepcopy(randomCrowd))
 		if (disp > maxDisp):
 			maxDisp = disp
 			maxCrowdList = list(randomCrowd)
@@ -157,11 +182,7 @@ def TwoD_toPoints(TwoD_points):
 
 
 def intersectCnt(points1, points2):
-	cnt = 0
-	for p1 in points1:
-		if p1 in points2:
-			cnt += 1
-	return cnt
+	return len(list(set(points1) & set(points2)))
 
 def mergeWithoutRepition(list1, list2):
 #Assuming list1 and list2 do not have any repitiotions
@@ -197,7 +218,7 @@ def readFromFile(matNum):
 	#matNum = 3 --> lines 20:30
 	i = matNum *10
 	j = i+10
-	with open('matrices.txt' , 'r') as f:
+	with open(fileName , 'r') as f:
    	 lines = f.readlines() # readlines creates a list of the lines
 	 m = lines[i:j]
 	 points_1D = []
@@ -220,7 +241,7 @@ def readFromFile(matNum):
 
 ##################################### Beginning of simulation ##########################################
 secondStage_cnt = t_setting - firstStage_cnt
-secondStage_perIncidentCnt = secondStage_cnt//incident_cnt
+#secondStage_perIncidentCnt = secondStage_cnt//incident_cnt
 
 #factor = secondStage_cnt/incident_cnt
 #if (factor < 1):
@@ -264,9 +285,8 @@ for j in range (0, average_over):
 	#random.shuffle(crowd_points_copy) #happens in place
 	#crowd_points_copy
 	t_random_range = crowdPoints_shuffled_2D[0:t_setting]
-	t_max_coverage = maximizeDispersion(crowd_points_2D, t_setting, trial)
-	t_x_max_coverage = maximizeDispersion(crowd_points_2D, firstStage_cnt, trial)
-
+	t_max_coverage = maximizeDispersion(crowd_points_2D, t_setting, trial, NN)
+	t_x_max_coverage = maximizeDispersion(crowd_points_2D, firstStage_cnt, trial, NN)
 
 	#Convert numbers to points
 	t_random_range_1D = TwoD_toPoints(t_random_range)
