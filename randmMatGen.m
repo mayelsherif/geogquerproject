@@ -1,6 +1,6 @@
 mat_size = 10;
 average_over = 100;
-cluster_cnt = 10;
+cluster_cnt = 5;
 incident_cnt = 100;
 
 % Used for commenting multiple lines
@@ -40,7 +40,7 @@ slopes - Vector (numClusts x 1) containing the effective slopes used to generate
 lengths - Vector (numClusts x 1) containing the effective lengths used to generate clusters
 %}
 
-%{
+
 op_end = 10;
 op_start = 0;
 file = strcat('matrixClust',int2str(cluster_cnt), '.txt') 
@@ -85,4 +85,3 @@ else
 end
 
 end
-%}
