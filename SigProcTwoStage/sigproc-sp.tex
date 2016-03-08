@@ -9,6 +9,9 @@
 \usepackage{pifont}
 \usepackage{tabulary}
 \usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{cleveref}
+\captionsetup{compatibility=false}
 
 \begin{document}
 
@@ -63,20 +66,20 @@ Some introductory sentences...
 %In particular, we seek to understand different harassment aspects, such as the location of events and the properties of these locations, so that this information can be used to inform prevention of future events.
 
 \section{Related Work}
-- Spatial task distribution (maximizing task assignement)\\
+- Spatial task distribution (maximizing task assignment)\\
 - Applications: emergency scenarios, safety applications, etc. 
 - crowd sourcing and crowd sensing
 
 \section{Research question and proposed technique}
-In this paper, we envision a world where users can be probed to contribute to an unanswered question. An unanswered question can be related to a phenomenon that needs to be tracked under  constraints of $N$ resources. Examples include disastrous and safety applications. In particular, we have a two-dimensional grid and a number of objects that can sense the environment around them. These objects can be humans, artificial sensors, mobile phones or even robotic sensors. If we are interested in answering the question "How are things going in this grid?", we can basically ask or query all the objects in the two-dimensional space and aggregate their findings. In this paper, we assume that to answer this question, you can only query $N$ objects. Hence, the question becomes: \textit{Given $N$ resources, who should you select to track a real-time phenomenon? }.  Answering this question becomes essential in the case of a limited bandwidth of resources. This is particularly important in emergency scenarios when a network's performance degrades and preserving energy and other resources become important.\par
+In this paper, we envision a world where users can be probed to contribute to an unanswered question. An unanswered question can be related to a phenomenon that needs to be tracked under  constraints of $N$ resources. Examples include disastrous and safety applications. In particular, we have a two-dimensional grid and a number of objects that can sense the environment around them. These objects can be humans, artificial sensors, mobile phones or even robotic sensors. If we are interested in answering the question "How are things going in this grid?", we can basically ask or query all the objects in the two-dimensional space and aggregate their findings. In this paper, we assume that to answer this question, you can only query $N$ objects. Hence, the question becomes: \textit{Given $N$ resources, who should you select to track a real-time phenomenon?} Answering this question becomes essential in the case of a limited bandwidth of resources. This is particularly important in emergency scenarios when a network's performance degrades and preserving energy and other resources become important.\par
 If we attempt to tackle this question from a probabilistic point of view, then the straightforward answer would be to try to select objects/users with the same probabilistic distribution as the phenomenon. For instance, if we know that a certain phenomenon occurs at different places in the two-dimensional grid uniformly, then we would have no bias in selecting the users to query i.e. each user/object would have the same distribution of being selected to be queried. On the other hand, if we know the phenomenon we are interested in querying is more prevalent in certain areas of the grid as opposed to other areas, we would take that into consideration when we are selecting the users and select more users to query in this are and fewer users in other areas where there is a smaller probability of occurrence.\par
 But what if you do not know the distribution or what if the distribution of the phenomenon is time variant? The aforementioned question becomes more interesting in this case and we can then inquire if there is a systematic algorithm that can be used for querying/selecting users to track a phenomenon regardless of the probabilistic distribution or time variations. \par
 In this paper, we introduce a two-stage technique that can be used to select $N$ users to track a real-time phenomenon with no prior information about the event distribution. The technique outperforms the random user selection by a percentage of $20-63\%$ on average in terms of number of users chosen that were close in the events and outperforms the dispersion maximization technique by a percentage of $20-68\%$ on average.\par
 
 \subsection{Technique Description}
 We assume that we have $M$ users in our two-dimensional grid and that the system that selects a user to query is bounded by $N$ resources where $N < M$.  Each of the $M$ users has a specific location in the grid determined by a two-dimensional system e.g. (x, y) or a (lat, long). We also assume that the users selected will participate in answering the question of interest to the system and fully co-operate. A pre-selection phase can be used to eliminate users that aren't likely to co-operate or users who can provide false information using a system of building trust over time. The ways to rule out users based on trust or refusal to co-operate is not the main focus of this paper. Instead, we focus on how to select $N$ out of $M$ users to  where $N < M$ to keep track of events occurring in the two-dimensional grid.\par
-Our technique combines $K$ nearest neighbor (KNN) queries with querying users to maximize the dispersion of their location in the grid as depicted in Algorithm 1. We devise the selection of users into two stages. In the first stage, our goal is selecting users with the aim of maximizing the dispersion of their locations. Based on the crowd feedback in the first stage, we go into a more fine grained selection. The users that provides a positive feedback (i.e. they witness an event/ emergency in their location) are called the pivot users. In the second stage, we aim to get the $K$ nearest neighbors for the pivot users. We assume that because the pivot users witness an event, the $K$ nearest neighbors will witness another event of the same type in a neighboring area. \par
-The aformentioned technique assumes full trust in the first stage users to respond and provide unfalsified responses. To remedy that, we can explore dividng the selection of the second phase users into two groups: a group comprising of the $KNN$ of the pivot users and another group that aims to maximize the dispersion. In this section, we will focus on studyig our two-stage querying technique with the assumption of having full trust in the crowd and discuss the remedy in subsequent sections.\par  
+Our technique combines $K$ nearest neighbor (KNN) queries with querying users to maximize the dispersion of their location in the grid as depicted in Algorithm 1. We devise the selection of users into two stages. In the first stage, our goal is selecting users with the aim of maximizing the dispersion of their locations. Based on the crowd feedback in the first stage, we go into a more fine-grained selection. The users that provide a positive feedback (i.e. they witness an event/ emergency in their location) are called the pivot users. In the second stage, we aim to get the $K$ nearest neighbors for the pivot users. We assume that because the pivot users witness an event, the $K$ nearest neighbors will witness another event of the same type in a neighboring area. \par
+The aforementioned technique assumes full trust in the first stage users to respond and provide unfalsified responses. To remedy that, we can explore dividing the selection of the second phase users into two groups: a group comprising of the $KNN$ of the pivot users and another group that aims to maximize the dispersion. In this section, we will focus on studying our two-stage querying technique with the assumption of having full trust in the crowd and discuss the remedy in subsequent sections.\par  
 \begin{algorithm}
 \caption{Two-stage querying algorithm}
 \label{CHalgorithm}
@@ -86,12 +89,12 @@ The aformentioned technique assumes full trust in the first stage users to respo
 \State firstStageUsers = maximizeDisp($\floor{(firstStageRatio*N)}$)
 \State usersFeedback = feedback(firstStageUsers)
 \State if(usersFeedback.size ==0) 
-\State 	selectedUsers = maximizeDisp($M -\floor{(firstStagePercentage*N)}$ ){}
+\State     selectedUsers = maximizeDisp($M -\floor{(firstStagePercentage*N)}$ ){}
 \State else {
 \State selectedUsers.append(firstStageUsers)
 \State  secondStageUsersCount = $M -  \floor{(firstStageRatio*N)}$
 \State  Attempt ($k$= secondStageUsersCount/ firstStageUsers)
-\State else 	calculateQuota(firstStageUsers)
+\State else     calculateQuota(firstStageUsers)
 \State selectedUsers.append(KNN(firstStageUsers, $k$))
 \State return selectedUsers} 
 \EndProcedure
@@ -108,9 +111,11 @@ In order to quantify the performance of our technique, we test it under differen
 \item Selection based on dispersion maximization: The selection of users in this policy depends on selecting $N$ users from the crowd who maximize the dispersion of their locations.
 \end{itemize}
 \subsection{Experiments Variables}
-There are multiple variables that can be controlled to test the behavior of the two-stage querying technique. Table~\ref{table:1} explains the most important variables.
+There are multiple variables that can be controlled to test the behavior of the two-stage querying technique. Table~\ref{table:systemParameters} explains the most important variables.
 
 
+\begin{table}{}
+\centering
 \begin{tabulary}{0.5\textwidth}{|L|}
 \hline
 \textit{Environment settings: }\\
@@ -128,18 +133,20 @@ the width of the $2D$ spatial matrix. We model the spatial area under investigat
 \tabitem Maximization trials: number of attempts to maximize the dispersion of selected individuals/sensors from the crowd\\
 \hline
 \end{tabulary}  
-\label{table:1}\\
+\caption{Different parameters of the two-stage querying technique.}
+\label{table:systemParameters}
+\end{table}
 
-The environment settings are related to the size of the $2D$ matrix, the number of incidents and their distributon across the matrix and the number of resources to choose from. In all of our experiments, except the case study, we set up the $2D$ matrix as a $10$ by $10$ matrix. We show results for incident count of $50$ and  number of resources or $M$ of $100$. We varied the environment settings in our experiments and no noticable differences were observed in performance. Instead we focus on varying the query settings to better understand our querying technique. In this section we will focus on varying the first stage percentage and leave the variation of the $k$ setting to the following section. We also show results for $t\_setting = 30$ which constitutes $30\%$ of the available resources ($M$). We notice that the gap between the performance of our technique and the other techniques increase when $t\_setting$ decreses and all the techniques converge in performance when $t\_setting$ approaches $M$. \par
+The environment settings are related to the size of the $2D$ matrix, the number of incidents and their distribution across the matrix and the number of resources to choose from. In all of our experiments, except the case study, we set up the $2D$ matrix as a $10$ by $10$ matrix. We show results for incident count of $50$ and  number of resources or $M$ of $100$. We varied the environment settings in our experiments and no noticeable differences were observed in performance. Instead, we focus on varying the query settings to better understand our querying technique. In this section, we will focus on varying the first stage percentage and leave the variation of the $k$ setting to the following section. We also show results for $t\_setting = 30$ which constitutes $30\%$ of the available resources ($M$). We notice that the gap between the performance of our technique and the other techniques increase when $t\_setting$ decreases and all the techniques converge in performance when $t\_setting$ approaches $M$. \par
   
- To measure the performance of our technique in comparison to other forms of selection, we utilize two different metrics namely count of people/sensors queried in the $KNN$ of incidents and the number of incdidents covered by the people queried. The two metrics are formally defined as follows.
+ To measure the performance of our technique in comparison to other forms of selection, we utilize two different metrics namely count of people/sensors queried in the $KNN$ of incidents and the number of incidents covered by the people queried. The two metrics are formally defined as follows.
  \begin{itemize}
  \item Close people count: This is measured as the absolute number of people/resources in the KNN of each incident for all incidents. This is formally represented as follows:
  \begin{equation}
- Close people count = \sum \forall_{incident i} (KNN_i \cap {QU})
+ Close people count = \sum \forall_{incident i} |(KNN_i \cap {QU})|
  \end{equation}
  where $QU$ (the ''Queried Users'' set) is the set of users selected for querying. 
- \item Coverage: measured as the number of incidents covered out of the total number of incidents occuring in the $2D$ matrix. We assume an incident is covered if at least one of the people/resources in the incident's KNN was queried. This is formally measured as:
+ \item Coverage: measured as the number of incidents covered out of the total number of incidents occurring in the $2D$ matrix. We assume an incident is covered if at least one of the people/resources in the incident's KNN was queried. This is formally measured as:
  \begin{equation}
 Coverage = \sum \forall_{incident i} (Coverage_i) where,
  \end{equation}
@@ -153,55 +160,65 @@ Coverage = \sum \forall_{incident i} (Coverage_i) where,
 \end{itemize}  
 
 \subsection{Clustered data experminets}
-In this subsection, we aim to test our technique in a scenario where the events take a clustered form. Geographer Waldo R. Tobler's stated in the first law of geography: ''Everything is related to everything else, but near things are more related than distant things.'' In this subsection, we assume that the incidents are related to each other and that they take a clusterd form i.e. they form clusters across the $2D$ spatial matrix as seen in Fig~\ref{fig: clust}. \par
-For these type of experiments, we vary the number of clusters in our $2D$ matrix from one cluster to ten clusters while fixing the resouces or crowd count to be $100$. To ensure data variability, we model the size of each cluster as a random variable while making sure that the aggregated size of all the clusters is equal to the crowd count. For each case of varying the number of clusters, we average over $100$ different configurations. The objective in this section is to measure the effect of variation of the first stage percentage on our performance metrics.
+In this subsection, we aim to test our technique in a scenario where the events take a clustered form. Geographer Waldo R. Tobler's stated in the first law of geography: ''Everything is related to everything else, but near things are more related than distant things.'' In this subsection, we assume that the incidents are related to each other and that they take a clustered form i.e. they form clusters across the $2D$ spatial matrix as seen in Fig~\ref{fig: clust}. \par
+For these type of experiments, we vary the number of clusters in our $2D$ matrix from one cluster to ten clusters while fixing the resources or crowd count to be $100$. To ensure data variability, we model the size of each cluster as a random variable while making sure that the aggregated size of all the clusters is equal to the crowd count. For each case of varying the number of clusters, we average over $100$ different configurations. The objective in this section is to measure the effect of variation of the first stage percentage on our performance metrics.\par
+Figures~\ref{fig:clusteredResults}\subref{fig: clust_20},~\ref{fig:clusteredResults}\subref{fig: clust_40},~\ref{fig:clusteredResults}\subref{fig: clust_60},~\ref{fig:clusteredResults}\subref{fig: clust_80} depict the results for Close People count when varying the first stage percentage from $20\%$ to $80\%$. We notice that our two-stage querying technique always outperforms the Random crowd/sensors selection and the selection based on maximizing the dispersion only. Table~\ref{table:clusteredSurge} depicts the amount of surge in Close people count in comparison to Random and Dispersion Maximization techniques. We notice that as the amount of resources queried in the first stage decreases, the number of close people queried increases. This is due to the fact that when the first stage percentage decreases, the second stage resources increase under limited resources constraints which focuses on resources close to incidents detected in the first stage.
+
+\begin{table}{}
+\centering
+\begin{tabulary}{0.5\textwidth}{|C|C|C|C|C|}
+\hline 
+ First stage percentage & $20\%$ & $40\%$  & $60\%$  & $80\%$  \\ \hline
+Surge over Random   & $62.5\%$ & $58.89\%$  & $35\%$  & $20\%$  \\ \hline
+Surge over Dispersion Maximization   & $67.8\%$ & $62.32\%$  & $39.8\%$  & $20.64\%$ \\ \hline
+\end{tabulary}  
+\caption{Surge of Two Stage technique in comparison to Random and Dispersion Maximization techniques.}
+\label{table:clusteredSurge}
+\end{table}
+
+
+
+
+
    
 
 
-\begin{figure}[!htb]
+\begin{figure}[!h]
 \centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/clust.png}
+   \includegraphics[width=9cm ,height=5.5cm]{figuresPng/clust.png}
    \caption{An example of a $2D$ spatial matrix with $5$ clusters }\label{fig: clust}
 \end{figure}
 %Real life examples of clustered events include 
 %- Begin by pointing out real-life examples of spatially clustered phenomenon and spatial correlation in general. Lots of social phenomena are spatially dependent. %(https://books.google.com/books?id=jbFRojt85TUC&pg=PA2&lpg=PA2&dq=clustered+phenomena&source=bl&ots=yftMfShveB&sig=XcPOJriI1gineu-%A2YGpoJT3OII&hl=en&sa=X&ved=0ahUKEwiBp4a-s-zKAhUI5WMKHZQ3Cd8Q6AEITzAI#v=onepage&q=clustered%20phenomena&f=false)
 
-\begin{figure}[!htb]
+\begin{figure}
 \centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/FirstStageTwentyPerc}
-   \caption{Average number of people close to the incidents when maximizing the dispersion with $20\%$ of available resources. }\label{fig: heatMap}
+\subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $20\%$ of available resources. \label{fig: clust_20}}{%
+  \includegraphics[width=10cm, height=4.5cm]{figuresPng/fsTwentyPerc.png}%
+  }\par\medskip
+\subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $40\%$ of available resources.\label{fig: clust_40}}{%
+  \includegraphics[width=10cm, height=4.5cm]{figuresPng/fsFourtyPerc.png}%
+  }\par\medskip        
+\subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $60\%$ of available resources.\label{fig: clust_60}}{%
+     \includegraphics[width=10cm ,height=4.5cm]{figuresPng/fsSixtyPerc.png}%
+  }
+  \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $80\%$ of available resources.\label{fig: clust_80}}{%
+     \includegraphics[width=10cm ,height=4.5cm]{figuresPng/fsEightyPerc.png}%
+  }
+\caption{Varying the first stage percentage with different number of clusters.}
+\label{fig:clusteredResults}
 \end{figure}
 
-\begin{figure}[!htb]
-\centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/FirstStageFortyPerc}
-   \caption{Average number of people close to the incidents when maximizing the dispersion with $40\%$ of available resources. }\label{fig: heatMap}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/FirstStageSixtyPerc}
-   \caption{Average number of people close to the incidents when maximizing the dispersion with $60\%$ of available resources. }\label{fig: heatMap}
-\end{figure}
 
 
-\begin{figure}[!htb]
-\centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/FirstStageEightyPerc}
-   \caption{Average number of people close to the incidents when maximizing the dispersion with $80\%$ of available resources. }\label{fig: heatMap}
-\end{figure}
 
-\begin{figure}[!htb]
-\centering
-   \includegraphics[width=10cm ,height=5.5cm]{figuresPng/Coverage_Result}
-   \caption{Number of incidents covered by variations of the two-stage querying technique. }\label{fig: heatMap}
-\end{figure}
+
 \subsection{Uniformly distributed data experminets}
 \subsection{Case Study: Hollaback harassment data set}
 \subsubsection{Data Overview}
 \subsubsection{Analysis}
 \subsection{Stressing the two stage querying technique (k=1)}
-
+\subsection{Technique Variations}
 \section{Discussion}
 - Our assumptions and limitations...
 
@@ -226,4 +243,3 @@ In this paper, we introduced....
 
 
 \end{document}
-
