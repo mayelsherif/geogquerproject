@@ -1,11 +1,15 @@
 \documentclass{acm_proc_article-sp}
 \newcommand\floor[1]{\lfloor#1\rfloor}
 \newcommand\ceil[1]{\lceil#1\rceil}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
 \usepackage{textcomp}
 \usepackage{url}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{pifont}
+\usepackage{tabulary}
+\usepackage{amsmath}
+
 \begin{document}
 
 \title{Who to query? \\A two step querying technique for tracking real-time variant/unknown event distributions }
@@ -94,13 +98,7 @@ The aformentioned technique assumes full trust in the first stage users to respo
 \end{algorithmic}
 \end{algorithm}
 
-   %###############################
-%t_setting = 30  # t people to query
-%firstStage_cnt = int(firstStagePercentage*t_setting)
-%k_setting = 5 # number of nearest neighbours
-%######################################## Approximation Settings #######################
-%trial = 10000
-%average_over = 100 #number of matrices in the file
+
 
 \cite{adults}
 \section{Expermients}
@@ -111,22 +109,55 @@ In order to quantify the performance of our technique, we test it under differen
 \end{itemize}
 \subsection{Experiments Variables}
 There are multiple variables that can be controlled to test the behavior of the two-stage querying technique. Table~\ref{table:1} explains the most important variables.
-\begin{table}[h!]
-\centering
-\begin{tabular}{ |c|c|c|c| } 
+
+
+\begin{tabulary}{0.5\textwidth}{|L|}
 \hline
-col1 & col2 & col3 \\
+\textit{Environment settings: }\\
+\tabitem matrix dimension: represents the length and 
+the width of the $2D$ spatial matrix. We model the spatial area under investigation as a $2D$ square matrix.\\
+\tabitem incident count: number of incidnets distributed across the cells of the spatial matrix\\
+\tabitem resources or crowd count: the $M$ resouces from which $N$, where $N < M$, will be chosen to query\\
 \hline
-cell 4 & cell5 & cell6 \\ 
-cell 7 & cell8 & cell9 \\ 
+\textit{Query settings:}\\
+\tabitem $N$: the number of resources the system is limited by to query/sense \\
+\tabitem first stage percentage: the percentage of users/sensors of the $N$ resources that will be selected to query in the first phase. In our analysis, we test the cases of selecting $20\%, 40\%, 60\%$ and $80\%$ of the $N$ resources in the first stage.\\
+\tabitem k setting: used to identify the KNN crowd individuals/sensors to an incident\\
 \hline
-\end{tabular}
-\caption{Table to test captions and labels}
-\label{table:1}
-\end{table}
+\textit{Approximation settings: }\\
+\tabitem Maximization trials: number of attempts to maximize the dispersion of selected individuals/sensors from the crowd\\
+\hline
+\end{tabulary}  
+\label{table:1}\\
+
+The environment settings are related to the size of the $2D$ matrix, the number of incidents and their distributon across the matrix and the number of resources to choose from. In all of our experiments, except the case study, we set up the $2D$ matrix as a $10$ by $10$ matrix. We show results for incident count of $50$ and  number of resources or $M$ of $100$. We varied the environment settings in our experiments and no noticable differences were observed in performance. Instead we focus on varying the query settings to better understand our querying technique. In this section we will focus on varying the first stage percentage and leave the variation of the $k$ setting to the following section. We also show results for $t\_setting = 30$ which constitutes $30\%$ of the available resources ($M$). We notice that the gap between the performance of our technique and the other techniques increase when $t\_setting$ decreses and all the techniques converge in performance when $t\_setting$ approaches $M$. \par
+  
+ To measure the performance of our technique in comparison to other forms of selection, we utilize two different metrics namely count of people/sensors queried in the $KNN$ of incidents and the number of incdidents covered by the people queried. The two metrics are formally defined as follows.
+ \begin{itemize}
+ \item Close people count: This is measured as the absolute number of people/resources in the KNN of each incident for all incidents. This is formally represented as follows:
+ \begin{equation}
+ Close people count = \sum \forall_{incident i} (KNN_i \cap {QU})
+ \end{equation}
+ where $QU$ (the ''Queried Users'' set) is the set of users selected for querying. 
+ \item Coverage: measured as the number of incidents covered out of the total number of incidents occuring in the $2D$ matrix. We assume an incident is covered if at least one of the people/resources in the incident's KNN was queried. This is formally measured as:
+ \begin{equation}
+Coverage = \sum \forall_{incident i} (Coverage_i) where,
+ \end{equation}
+ \[
+    Coverage_i = 
+\begin{cases}
+    1,& \text{if }(KNN_i \cap {QU}) \neq \phi\\
+    0,              & \text{otherwise}
+\end{cases}
+\]
+\end{itemize}  
 
 \subsection{Clustered data experminets}
-In this subsection, we aim to test our technique in a scenario where the events take a clustered form. Geographer Waldo R. Tobler's stated in the first law of geography: ''Everything is related to everything else, but near things are more related than distant things.'' In this subsection, we assume that the incidents are related to each other and that they take a clusterd form i.e. they form clusters across the $2D$ spatial matrix as seen in Fig~\ref{fig: clust}.
+In this subsection, we aim to test our technique in a scenario where the events take a clustered form. Geographer Waldo R. Tobler's stated in the first law of geography: ''Everything is related to everything else, but near things are more related than distant things.'' In this subsection, we assume that the incidents are related to each other and that they take a clusterd form i.e. they form clusters across the $2D$ spatial matrix as seen in Fig~\ref{fig: clust}. \par
+For these type of experiments, we vary the number of clusters in our $2D$ matrix from one cluster to ten clusters while fixing the resouces or crowd count to be $100$. To ensure data variability, we model the size of each cluster as a random variable while making sure that the aggregated size of all the clusters is equal to the crowd count. For each case of varying the number of clusters, we average over $100$ different configurations. The objective in this section is to measure the effect of variation of the first stage percentage on our performance metrics.
+   
+
+
 \begin{figure}[!htb]
 \centering
    \includegraphics[width=10cm ,height=5.5cm]{figuresPng/clust.png}
