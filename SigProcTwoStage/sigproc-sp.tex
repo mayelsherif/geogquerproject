@@ -9,10 +9,11 @@
 \usepackage{pifont}
 \usepackage{tabulary}
 \usepackage{amsmath}
-\usepackage{subcaption}
 \usepackage{float}
 \usepackage{cleveref}
-\captionsetup{compatibility=false}
+\usepackage{caption}
+\DeclareCaptionType{copyrightbox}
+\usepackage{subcaption}
 
 \begin{document}
 
@@ -33,21 +34,21 @@
 % 1st. author
 \alignauthor
 Mai ElSherief\\
-      \affaddr{Dept. of Computer Science }\\
-      \affaddr{UC Santa Barbara}\\
-     %\affaddr{Santa Barbara, CA}\\
-      \email{mayelsherif@cs.ucsb.edu}      
-      \alignauthor
+     \affaddr{Dept. of Computer Science }\\
+     \affaddr{UC Santa Barbara}\\
+    %\affaddr{Santa Barbara, CA}\\
+     \email{mayelsherif@cs.ucsb.edu}     
+     \alignauthor
 Ramya Raghavendra\\
-      \affaddr{IBM T. J. Watson Research Center }\\
-      \email{rraghav@us.ibm.com}
+     \affaddr{IBM T. J. Watson Research Center }\\
+     \email{rraghav@us.ibm.com}
 % 2nd. author
 \alignauthor
 Elizabeth Belding\\
-     \affaddr{Dept. of Computer Science }\\
-      \affaddr{UC Santa Barbara}\\
-      %\affaddr{Santa Barbara, CA}\\
-      \email{ebelding@cs.ucsb.edu}
+    \affaddr{Dept. of Computer Science }\\
+     \affaddr{UC Santa Barbara}\\
+     %\affaddr{Santa Barbara, CA}\\
+     \email{ebelding@cs.ucsb.edu}
 }
 
 \maketitle
@@ -67,8 +68,10 @@ Some introductory sentences...
 %In particular, we seek to understand different harassment aspects, such as the location of events and the properties of these locations, so that this information can be used to inform prevention of future events.
 
 \section{Related Work}
+
+
 - Spatial task distribution (maximizing task assignment)\\
-- Applications: emergency scenarios, safety applications, etc. 
+- Applications: emergency scenarios, safety applications, etc.
 - crowd sourcing and crowd sensing
 
 \section{Research question and proposed technique}
@@ -80,32 +83,32 @@ In this paper, we introduce a two-stage technique that can be used to select $N$
 \subsection{Technique Description}
 We assume that we have $M$ users in our two-dimensional grid and that the system that selects a user to query is bounded by $N$ resources where $N < M$.  Each of the $M$ users has a specific location in the grid determined by a two-dimensional system e.g. (x, y) or a (lat, long). We also assume that the users selected will participate in answering the question of interest to the system and fully co-operate. A pre-selection phase can be used to eliminate users that aren't likely to co-operate or users who can provide false information using a system of building trust over time. The ways to rule out users based on trust or refusal to co-operate is not the main focus of this paper. Instead, we focus on how to select $N$ out of $M$ users to  where $N < M$ to keep track of events occurring in the two-dimensional grid.\par
 Our technique combines $K$ nearest neighbor (KNN) queries with querying users to maximize the dispersion of their location in the grid as depicted in Algorithm 1. We devise the selection of users into two stages. In the first stage, our goal is selecting users with the aim of maximizing the dispersion of their locations. Based on the crowd feedback in the first stage, we go into a more fine-grained selection. The users that provide a positive feedback (i.e. they witness an event/ emergency in their location) are called the pivot users. In the second stage, we aim to get the $K$ nearest neighbors for the pivot users. We assume that because the pivot users witness an event, the $K$ nearest neighbors will probably witness another event of the same type in a neighboring area. \par
-The aforementioned technique assumes full trust in the first stage users to respond and provide unfalsified responses. To remedy that, we can explore dividing the selection of the second phase users into two groups: a group comprising of the $KNN$ of the pivot users and another group that aims to maximize the dispersion. In this section, we will focus on studying our two-stage querying technique with the assumption of having full trust in the crowd and discuss other variants of the technique in subsequent sections.\par  
+The aforementioned technique assumes full trust in the first stage users to respond and provide unfalsified responses. To remedy that, we can explore dividing the selection of the second phase users into two groups: a group comprising of the $KNN$ of the pivot users and another group that aims to maximize the dispersion. In this section, we will focus on studying our two-stage querying technique with the assumption of having full trust in the crowd and discuss other variants of the technique in subsequent sections.\par 
 \begin{algorithm}
 \caption{Two-stage querying algorithm}
 \label{TSalgorithm}
-    \begin{algorithmic}[1]
-        \Function{selectUsersFromGrid }{$FSP, N$}
-            \State selectedUsers = $\left\{\right\}$
-            \State firstStageCnt = $\floor{(FSP*N)}$
-            \State secondStageCnt = $M - firstStageCnt$
-            \State firstStageUsers = maximizeDisp(firstStageCnt)
-            \State usersFeedback = feedback(firstStageUsers)
-            \If {usersFeedback.size == 0}
-                   \State selectedUsers = maximizeDisp(secondStageCnt){}
-            \Else
-                \State {selectedUsers.append(firstStageUsers)}
-            \EndIf    
-          \State firstStageQuota = calculateQuota(firstStageUsers)
-          \For{$user_i$ in firstStageUsers}
-        \State selectedUsers.append(KNN($user_i$, $firstStageQuota_i$))
-      \EndFor
+   \begin{algorithmic}[1]
+       \Function{selectUsersFromGrid }{$FSP, N$}
+           \State selectedUsers = $\left\{\right\}$
+           \State firstStageCnt = $\floor{(FSP*N)}$
+           \State secondStageCnt = $M - firstStageCnt$
+           \State firstStageUsers = maximizeDisp(firstStageCnt)
+           \State usersFeedback = feedback(firstStageUsers)
+           \If {usersFeedback.size == 0}
+                  \State selectedUsers = maximizeDisp(secondStageCnt){}
+           \Else
+               \State {selectedUsers.append(firstStageUsers)}
+           \EndIf   
+         \State firstStageQuota = calculateQuota(firstStageUsers)
+         \For{$user_i$ in firstStageUsers}
+       \State selectedUsers.append(KNN($user_i$, $firstStageQuota_i$))
+     \EndFor
 \State return {selectedUsers}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-\section{Expermients}
+\section{Experiments}
 In order to quantify the performance of our technique, we test it under different scenarios. We investigate the technique using three types of data spread: clustered, uniform and real datasets. In our experiments, we compare our algorithm in the selection of users to two policies as follows.
 \begin{itemize}
 \item Random user selection: For this policy, we select $N$ users randomly based on a uniform distribution.
@@ -120,10 +123,10 @@ There are multiple variables that can be controlled to test the behavior of the 
 \begin{tabulary}{0.5\textwidth}{|L|}
 \hline
 \textit{Environment settings: }\\
-\tabitem matrix dimension: represents the length and 
+\tabitem matrix dimension: represents the length and
 the width of the $2D$ spatial matrix. We model the spatial area under investigation as a $2D$ square matrix.\\
-\tabitem incident count: number of incidnets distributed across the cells of the spatial matrix\\
-\tabitem resources or crowd count: the $M$ resouces from which $N$, where $N < M$, will be chosen to query\\
+\tabitem incident count: number of incidents distributed across the cells of the spatial matrix\\
+\tabitem resources or crowd count: the $M$ resources from which $N$, where $N < M$, will be chosen to query\\
 \hline
 \textit{Query settings:}\\
 \tabitem $N$: the number of resources the system is limited by to query/sense \\
@@ -133,39 +136,38 @@ the width of the $2D$ spatial matrix. We model the spatial area under investigat
 \textit{Approximation settings: }\\
 \tabitem Maximization trials: number of attempts to maximize the dispersion of selected individuals/sensors from the crowd\\
 \hline
-\end{tabulary}  
+\end{tabulary} 
 \caption{Different parameters of the two-stage querying technique.}
 \label{table:systemParameters}
 \end{table}
 
 The environment settings are related to the size of the $2D$ matrix, the number of incidents and their distribution across the matrix and the number of resources to choose from. In all of our experiments, except the case study, we set up the $2D$ matrix as a $10$ by $10$ matrix. We show results for incident count of $50$ and  number of resources or $M$ of $100$. We varied the environment settings in our experiments and no noticeable differences were observed in performance. Instead, we focus on varying the query settings to better understand the two-stage technique. In this section, we will focus on varying the first stage percentage and leave the variation of the $k$ setting to the following section. We also show results for $t\_setting = 30$ which constitutes $30\%$ of the available resources ($M$). We notice that the gap between the performance of our technique and the other techniques increase when $t\_setting$ decreases and all the techniques converge in performance when $t\_setting$ approaches $M$. \par
-  
  To measure the performance of our technique in comparison to other forms of selection, we utilize two different metrics namely count of people/sensors queried in the $KNN$ of incidents and the number of incidents covered by the people queried. The two metrics are formally defined as follows.
- \begin{itemize}
- \item Close people count: This is measured as the absolute number of people/resources in the KNN of each incident for all incidents. This is formally represented as follows:
- \begin{equation}
- Close\ people\ count = \sum \forall_{incident\ i}\ |(KNN_i \cap {QU})|
- \end{equation}
- where $QU$ (the ``Queried Users'' set) is the set of users selected for querying. 
- \item Coverage: measured as the number of incidents covered out of the total number of incidents occurring in the $2D$ matrix. We define an incident to be covered if at least one of the people/resources in the incident's KNN was queried. This is formally measured as:
- \begin{equation}
+\begin{itemize}
+\item Close people count: This is measured as the absolute number of people/resources in the KNN of each incident for all incidents. This is formally represented as follows:
+\begin{equation}
+Close\ people\ count = \sum \forall_{incident\ i}\ |(KNN_i \cap {QU})|
+\end{equation}
+where $QU$ (the ``Queried Users'' set) is the set of users selected for querying.
+\item Coverage: measured as the number of incidents covered out of the total number of incidents occurring in the $2D$ matrix. We define an incident to be covered if at least one of the people/resources in the incident's KNN was queried. This is formally measured as:
+\begin{equation}
 Coverage = \sum \forall_{incident\ i}\ Coverage_i\  where,
- \end{equation}
- \[
-    Coverage_i = 
+\end{equation}
+\[
+   Coverage_i =
 \begin{cases}
-    1,& \text{if }(KNN_i \cap {QU}) \neq \phi\\
-    0,              & \text{otherwise}
+   1,& \text{if }(KNN_i \cap {QU}) \neq \phi\\
+   0,              & \text{otherwise}
 \end{cases}
 \]
-\end{itemize}  
+\end{itemize} 
 
-\subsection{Clustered data experminets}
+\subsection{Clustered data experiments}
 In this subsection, we aim to test our technique in a scenario where the events take a clustered form. Geographer Waldo R. Tobler's stated in the first law of geography: ``Everything is related to everything else, but near things are more related than distant things.'' In this subsection, we assume that the incidents are related to each other and that they take a clustered form i.e. they form clusters across the $2D$ spatial matrix as seen in Fig~\ref{fig: clust}. \par
 \begin{figure}[!h]
 \centering
-   \includegraphics[width=9cm ,height=5.5cm]{figuresPng/clust.png}
-   \caption{An example of a $2D$ spatial matrix with $5$ clusters }\label{fig: clust}
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/clust.png}
+  \caption{An example of a $2D$ spatial matrix with $5$ clusters }\label{fig: clust}
 \end{figure}
 For these type of experiments, we vary the number of clusters in our $2D$ matrix from one cluster to ten clusters while fixing the resources or crowd count to be $100$. To ensure data variability, we model the size of each cluster as a random variable while making sure that the aggregated size of all the clusters is equal to the crowd count. For each case of varying the number of clusters, we average over $100$ different configurations. The objective in this section is to measure the effect of variation of the first stage percentage on our performance metrics.\par
 Figures~\ref{fig:clusteredResults}\subref{fig: clust_20},~\ref{fig:clusteredResults}\subref{fig: clust_40},~\ref{fig:clusteredResults}\subref{fig: clust_60},~\ref{fig:clusteredResults}\subref{fig: clust_80} depict the results for Close People count when varying the first stage percentage from $20\%$ to $80\%$. We notice that our two-stage querying technique always outperforms the Random crowd/sensors selection and the selection based on maximizing the dispersion only. Table~\ref{table:clusteredSurge} depicts the amount of surge in Close people count in comparison to Random and Dispersion Maximization techniques. We notice that as the amount of resources queried in the first stage decreases, the number of close people queried increases. This is due to the fact that when the first stage percentage decreases, the second stage resources increase under limited resources constraints which focuses on resources close to incidents detected in the first stage. On the other hand, incident coverage tends to increase as the first stage count increases. This is depicted in Figure~\ref{fig: clustCoverage}. We can also notice that both Close people count and Incident coverage tends to increase with the number of clusters till the number of clusters is around four or five and then decreases.
@@ -173,52 +175,80 @@ Figures~\ref{fig:clusteredResults}\subref{fig: clust_20},~\ref{fig:clusteredResu
 \begin{table}[!h]
 \centering
 \begin{tabulary}{0.5\textwidth}{|C|C|C|C|C|}
-\hline 
- First stage percentage & $20\%$ & $40\%$  & $60\%$  & $80\%$  \\ \hline
+\hline
+First stage percentage & $20\%$ & $40\%$  & $60\%$  & $80\%$  \\ \hline
 Surge over Random   & $62.5\%$ & $58.89\%$  & $35\%$  & $20\%$  \\ \hline
 Surge over Dispersion Maximization   & $67.8\%$ & $62.32\%$  & $39.8\%$  & $20.64\%$ \\ \hline
-\end{tabulary}  
+\end{tabulary} 
 \caption{Surge of Two Stage technique in comparison to Random and Dispersion Maximization techniques.}
 \label{table:clusteredSurge}
 \end{table}
- 
 
-%Real life examples of clustered events include 
+%Real life examples of clustered events include
 %- Begin by pointing out real-life examples of spatially clustered phenomenon and spatial correlation in general. Lots of social phenomena are spatially dependent. %(https://books.google.com/books?id=jbFRojt85TUC&pg=PA2&lpg=PA2&dq=clustered+phenomena&source=bl&ots=yftMfShveB&sig=XcPOJriI1gineu-%A2YGpoJT3OII&hl=en&sa=X&ved=0ahUKEwiBp4a-s-zKAhUI5WMKHZQ3Cd8Q6AEITzAI#v=onepage&q=clustered%20phenomena&f=false)
 
 \begin{figure}[!h]
 \centering
 \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $20\%$ of available resources. \label{fig: clust_20}}{%
-  \includegraphics[width=9cm, height=4.5cm]{figuresPng/fsTwentyPerc.png}%
-  }\par\medskip
+ \includegraphics[width=9cm, height=4.5cm]{figuresPng/fsTwentyPerc.png}%
+ }\par\medskip
 \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $40\%$ of available resources.\label{fig: clust_40}}{%
-  \includegraphics[width=9cm, height=4.5cm]{figuresPng/fsFourtyPerc.png}%
-  }\par\medskip        
+ \includegraphics[width=9cm, height=4.5cm]{figuresPng/fsFourtyPerc.png}%
+ }\par\medskip       
 \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $60\%$ of available resources.\label{fig: clust_60}}{%
-     \includegraphics[width=9cm ,height=4.5cm]{figuresPng/fsSixtyPerc.png}%
-  }
-  \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $80\%$ of available resources.\label{fig: clust_80}}{%
-     \includegraphics[width=9cm ,height=4.5cm]{figuresPng/fsEightyPerc.png}%
-  }
+    \includegraphics[width=9cm ,height=4.5cm]{figuresPng/fsSixtyPerc.png}%
+ }
+ \subcaptionbox{Average number of people close to the incidents (Close people count) when maximizing the dispersion with $80\%$ of available resources.\label{fig: clust_80}}{%
+    \includegraphics[width=9cm ,height=4.5cm]{figuresPng/fsEightyPerc.png}%
+ }
 \caption{Varying the first stage percentage with different number of clusters.}
 \label{fig:clusteredResults}
 \end{figure}
 
 \begin{figure}[!h]
 \centering
-   \includegraphics[width=9cm ,height=5.5cm]{figuresPng/Coverage_Result.png}
-   \caption{Incident coverage for different values of First stage percentage. }
-   \label{fig: clustCoverage}
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/Coverage_Result.png}
+  \caption{Incident coverage for different values of First stage percentage. }
+  \label{fig: clustCoverage}
 \end{figure}
 
 
 
 \subsection{Uniformly distributed data experiments}
-- put uniformly distributed results here
+In this type of experiments, the probability of occurrence of incidents is uniform across the grid i.e. $P_I (j) = P_I (k)$ where $j \neq k$ and $P_I$ denotes the probability of an incident occurring at a specific cell. We generate a $100$ different matrices. We note that in the case that we know that the distribution of the incidents is uniform, the best we can do is to choose $N$ sensors uniformly. Using the two-stage technique, we select $N$ sensors without assuming any distribution about the incidents and check the performance in comparison to the uniform random selection which in this case is the best we can do. Figure~\ref{fig:uniClosePeople} shows that the two-stage technique with $FSP = 20\%$ achieves the highest number of close sensors to the incidents while Figure~\ref{fig:uniIncdCove} shows that the two-stage technique with $FSP = 80\%$ achieves higher coverage that the uniform random policy and it is close to the maximum coverage by an average of $1.32$ incidents.
 
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/Uni_ClosePeople_Count.png}
+  \caption{Close sensor count for different values of First stage percentage. }
+  \label{fig:uniClosePeople}
+\end{figure}
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/Uni-Inc_Coverage.png}
+  \caption{Incident coverage for different values of First stage percentage. }
+  \label{fig:uniIncdCove}
+\end{figure}
 
 \subsection{Long Tail Distribution}
-- put long tail results here
+In this subsection, the incidents are generated according to a special case of the Long Tail distribution called the ``Pareto principle''. According to the Pareto principle, we assume that $20\%$ of the matrix cells are home for $80\%$ of the incidents and $80\%$ of the matrix cells are home for $20\%$ of the incidents. We generate a $100$ different matrices applying the Pareto Principle randomly on the cells. We use a random uniform distribution to select $20\%$ of the cells and generate $80\%$ of the incidents uniformly for these cells and vice versa. Figure~\ref{fig:LTClosePeople} shows that the two-stage outperforms both the random policy and the dispersion maximization policy by up to $10.2\%$ and $12.1\%$ respectively in terms of close sensor count. This is probably due to the clustering of events in only $20\%$ of the grid which means that more than one incident is likely to occur in the same cell. So, if the two-stage technique reaches a sensor close to an incident in one cell, this same sensor will cover more than one incident in the same cell. Dispersion maximization achieves the best incident coverage as shown in Figure~\ref{fig:LTIncdCove}. The two- stage technique approaches the maximum incident coverage when $FSP = 80\%$ with a difference of $1.24$ incidents on average.
+
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/LT-closePeople.png}
+  \caption{Close sensor count for different values of First stage percentage in the case of a long tail distribution. }
+  \label{fig:LTClosePeople}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/LT-incidCov.png}
+  \caption{Incident coverage for different values of First stage percentage in the case of a long tail distribution. }
+  \label{fig:LTIncdCove}
+\end{figure}
+
+
 
 \subsection{Case Study: Hollaback harassment data set}
 After applying the two-stage querying technique to the previously mentioned three distributions (clustered, uniform and long-tail), we wish to examine the technique under real incident distributions. In order to do that, we test our querying technique on a global street harassment dataset provided by Hollaback~\cite{hollaback}.
@@ -226,21 +256,21 @@ After applying the two-stage querying technique to the previously mentioned thre
 \subsubsection{Data Overview}
 Hollaback~\cite{hollaback} is a non-profit movement powered by local activists in $92$ cities and $32$ countries to end street harassment. The Hollaback project collects data on street harassment events worldwide. Through the Hollaback phone app and the online platform, users can report stories of street harassment to share with the Hollaback community. This empowers victims to speak out about everyday harassment and spread the word about the prevalence of these events. In some communities, local governments are informed in real-time about street harassment so that there is a system-wide level of accountability. In addition, the Hollaback app uses GPS to record a data set representing the locations of street harassment events as a means of improving the collective understanding of street harassment and how it can be prevented.  As of January $2016$, over $8000$ street harassment incidents have been recorded in their dataset since February $2011$.  It is on this data set that we wish to test the two-stage querying technique.\par
 \subsubsection{Analysis}
-Going through the Hollaback dataset, we select different cities for which we have enough harassment samples for statistical significance (i.e. more than 30 samples). We test the performance of Random selection, Dispersion maximization selection, and the two-stage querying on six different cities: Paris in France, Brussels in Belguim, Berlin in Germany, Baltimore, Maryland in the US, Buenos Aires in Argentina and Istanbul in Turkey. In this paper, we show results for Paris, Brussels and Istanbul. \par
+Going through the Hollaback dataset, we select different cities for which we have enough harassment samples for statistical significance (i.e. more than 30 samples). We test the performance of Random selection, Dispersion maximization selection, and the two-stage querying on six different cities: Paris in France, Brussels in Belgium, Berlin in Germany, Baltimore, Maryland in the US, Buenos Aires in Argentina and Istanbul in Turkey. In this paper, we show results for Paris, Brussels and Istanbul. \par
 
 In order to separate the collected Hollaback dataset into different cities, we used bounding box coordinates. After that, we drew the border lines for the different cities and removed any outliers from our datasets. Figure~\ref{fig:citiesDistribution} shows the distribution of events for the different cities. The Paris dataset contains $197$ harassment incidents and covered an area of $28.2$ sq mi while the Brussels dataset contains $154$ incidents covering a geographic area of $28.4$ sq mi. Istanbul had $87$ reported incidents covering an area of $138$ sq mi on the left of Bosporus Strait and $69$ sq mi on the right. \par
 
 \begin{figure}[!h]
 \centering
 \subcaptionbox{Hollaback harassment reports in Paris. \label{fig: clust_20}}{%
-  \includegraphics[width=8cm, height=5cm]{figuresPng/Paris.png}%
-  }\par\medskip
+ \includegraphics[width=8cm, height=5cm]{figuresPng/Paris.png}%
+ }\par\medskip
 \subcaptionbox{Hollaback harassment reports in Brussels.\label{fig: clust_40}}{%
-  \includegraphics[width=8cm, height=5cm]{figuresPng/Brussels.png}%
-  }\par\medskip        
+ \includegraphics[width=8cm, height=5cm]{figuresPng/Brussels.png}%
+ }\par\medskip       
 \subcaptionbox{Hollaback harassment reports in Istanbul.\label{fig: clust_60}}{%
-     \includegraphics[width=8cm ,height=5cm]{figuresPng/Istanbul.png}%
-  }
+    \includegraphics[width=8cm ,height=5cm]{figuresPng/Istanbul.png}%
+ }
 \caption{Distribution of harassment incidents across Paris, Brussels and Istanbul.}
 \label{fig:citiesDistribution}
 \end{figure}
@@ -251,27 +281,46 @@ For each of the cities, we generate different variations of uniformly distribute
 
 \begin{figure}[!h]
 \centering
-   \includegraphics[width=9cm ,height=5.5cm]{figuresPng/hollaCloseCnt.png}
-   \caption{Close people count for different values of First stage percentage. }
-   \label{fig: hollaCloseCount}
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/hollaCloseCnt.png}
+  \caption{Close people count for different values of First stage percentage. }
+  \label{fig: hollaCloseCount}
 \end{figure}
 \begin{figure}[!h]
 \centering
-   \includegraphics[width=9cm ,height=5.5cm]{figuresPng/citiesInc.png}
-   \caption{Incident coverage for different values of First stage percentage. }
-   \label{fig: hollaIncCoverage}
+  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/citiesInc.png}
+  \caption{Incident coverage for different values of First stage percentage. }
+  \label{fig: hollaIncCoverage}
 \end{figure}
 
 
-\subsection{Stressing the two stage querying technique (k=1)}
-\subsection{Technique Variations}
+\subsection{Stressing the two-stage querying technique (k=1)}
+After applying the two-stage technique to different datasets, we wish to look at how the different selection policies, in terms of identifying the first nearest neighbor to the different incidents. This is beneficial in case of targeting first responders in case of an emergency scenario or just in case of spatial task distribution where you want to select the nearest neighbors to maximize spatial task assignment. This can be viewed as stressing the selection policies in order to determine which one achieves a higher number of first nearest neighbors.\par
+In order to study first nearest neighbors, we examine the real Hollaback datasets for Paris, Brussels and Istanbul. We examine the total close sensor count and for each incident we look if we selected the first nearest neighbor in the queried users set or not. These results can be shown in Table~\ref{table:NNParis}, where NN denotes nearest neighbors, CS denotes close sensor count, TS denotes the two-stage querying technique, Bruss denotes Brussels, and Istan denotes Istanbul. For Paris, the two-stage technique achieves a $9.5\%$ surge on average in selecting nearest neighbors in comparison to dispersion maximization and $19\%$ surge in comparison to random selection. For Brussels, the surge is $14.2\%$ and $21.35\%$ in comparison to dispersion maximization and random selection respectively. For Istanbul, the surge percentages were $26.7\%$ and $36.5\%$.
+
+\begin{table}[!h]
+\centering
+\begin{tabulary}{0.5\textwidth}{|C|C|C|C|C|C|C|}
+\hline
+City & Random & Maximize & TS ($FSP = 0.2$) & TS ($FSP = 0.4$)  & TS ($FSP = 0.6$)  &TS ($FSP = 0.8$)   \\ \hline
+Paris-NN & $58$ & $63$  & $54$  & $69$ & $69$ & $84$  \\ \hline
+Paris-CS   & $300$ & $298$  & $281$  & $328$ & $343$ & $399$  \\ \hline
+Bruss-NN & $48$ & $51$  & $55$  & $58$ & $55$ & $65$  \\ \hline
+Bruss-CS   & $233$ & $237$  & $286$  & $303$ & $288$ & $322$  \\ \hline
+Istan-NN & $26$ & $28$  & $36$  & $37$ & $35$ & $36$  \\ \hline
+Istan-CS   & $131$ & $132$  & $190$  & $188$ & $188$ & $184$  \\ \hline
+\end{tabulary} 
+\caption{Nearest neighbors and close sensor count for Paris, Brussels, and Istanbul.}
+\label{table:NNParis}
+\end{table}
+
+\subsection{Technique 	Variations}
 - prior knowledge variation
 - second stage division
 \section{Discussion}
 - Our assumptions and limitations...
 
 \section{Conclusions}
-In this paper, we introduced.... 
+In this paper, we introduced....
 
 \section{Acknowledgments}
 
@@ -291,3 +340,4 @@ In this paper, we introduced....
 
 
 \end{document}
+
