@@ -14,6 +14,7 @@
 \usepackage{caption}
 \DeclareCaptionType{copyrightbox}
 \usepackage{subcaption}
+\usepackage{pgfplots}
 \DeclareMathOperator*{\argmax}{argmax}
 \newcommand*{\argmaxl}{\argmax\limits}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
@@ -68,7 +69,7 @@ In order to do that, the technique maximizes the dispersion of the locations wit
 \section{Introduction}
 Sensors are a large part of our daily life. The common smartphone includes different sensors: camera, microphone, GPS, accelerometer, digital compass, light sensor, Bluetooth as proximity sensor among other sensors. In the near future, they are even envisioned to include more and more sensors. The ubiquity of sensors is not only prevalent in smartphones but also in the urban environment surrounding us. Examples include traffic sensors, agriculture sensors, wireless parking sensors, infrastructure sensors, weather, and pollution sensors among others. Another type of sensors lies in the power of analysis of datasets. In a sense, insights from data analysis can reveal important observations. For instance, ~\cite{ferreira2013visual} leverages the geographic and temporal data associated with taxis in NYC to gain insights into many different aspects of city life, from economic activity and human behavior to mobility patterns. With the recent plethora of crowdsourcing, humans' senses have been leveraged to generate, contribute and report about their surroundings. One example that comes to mind is the application ``Waze'', where users can report traffic jams, accidents and other road related incidents in real-time. The work introduced in~\cite{agapie2015crowdsourcing} probes local workers to collect information in person at events and remote workers to curate the collected information and generate event reports.\par
 
-Despite the ubiquity of sensors, whether these sensors are human or devices, the challenges of energy preservation or resource constraints always prevail. The truth is that all systems are bound by a fixed amount of resources. In this paper, we wish to investigate the problem of how can we probe a limited amount of sensors in a particular environment instead of probing the whole amount of sensors to either preserve energy or to simulate a resource constrained system. In particular, we envision a world where users/sensors can be probed to contribute to an unanswered question. An unanswered question can be related to a phenomenon that needs to be tracked under the constraints of $N$ resources. Examples of resource constrained systems include disaster and safety applications or in general terms to track any spatial phenomenon.\par
+Despite the ubiquity of sensors, whether these sensors are human or devices, the challenges of energy preservation or resource constraints always prevail. The truth is that all systems are bound by a fixed amount of resources. For instance, ~\cite{marco2003many} and~\cite{pattem2008impact} focus on eliminating redundancies in among the possibly correlated sensor measurements. In this paper, we wish to investigate the problem of how can we probe a limited amount of sensors in a particular environment instead of probing the whole amount of sensors to either preserve energy or to simulate a resource constrained system. In particular, we envision a world whxere users/sensors can be probed to contribute to an unanswered question. An unanswered question can be related to a phenomenon that needs to be tracked under the constraints of $N$ resources. Examples of resource constrained systems include disaster and safety applications or in general terms to track any spatial phenomenon.\par
 
 Our contribution in this paper is three-fold. First, we propose a two-stage matching technique that probes/queries $N$ nodes out of $M$ available nodes to track a real-time phenomenon with no prior information about the event distribution. The technique outperforms the random user selection by up to $63\%$ on average in terms of number of users chosen that are close to the events and outperforms the dispersion maximization technique by up to $68\%$ on average. Secondly, we perform experiments to study the performance of our proposed technique under three different distributions: uniform, clustered and long-tailed. We also test the technique on a real dataset that is comprised of harassment cities in three different cities. Third, we discuss how the technique is altered based on trust variations and prior knowledge availability.\par
 
@@ -88,7 +89,7 @@ The question becomes far more challenging if the distribution is not known or if
 \subsection{Technique Description}
 We assume that there are $M$ users in a two-dimensional grid and that the system that selects a user to query is bounded by $N$ resources, where $N < M$.  Each of the $M$ users has a specific location in the grid, determined by a two-dimensional system, e.g. (x, y) or a (lat, long). We also assume that the users selected will participate in answering the question of interest to the system and fully co-operate. A pre-selection phase can be used to eliminate users that are not likely to co-operate such as requiring installation of an app to facilitate querying. Here, we focus on how to select $N$ out of $M$ users to  where $N < M$ to keep track of events occurring in the two-dimensional grid.\par
 Our technique combines $K$ nearest neighbor (KNN) queries with querying users to maximize the dispersion of their location in the grid as depicted in Algorithm 1. We divide the selection of users into two stages. In the first stage, our goal is to select users with the goal of maximizing the dispersion of users' locations. We maximize the dispersion by selcting the set of points that maximizes the average distance between each point and its nearest neighbor as follows:
-\begin{equation}
+\begin{equation} \label{eq:maxDisp}
 \argmax \sum_{i=1}^{N} \norm{p(i) - NN(p(i))}^2
 \end{equation}
 where $p$ respresents a point in the $2D$ grid and $NN$ represents the nearest neighbor and the distance is measured as the Euclidean distance. The algorithm attempts to maximize the dispersion up to the number of maximization trials. 
@@ -119,17 +120,6 @@ This initial algorithm assumes that the first stage users will respond with unfa
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
-\section{Experiments}
-To quantify the performance of our technique, we perform multiple experiments with three types of data spread: clustered, uniform and real datasets. In our experiments, we compare our algorithm in the selection of users to two policies as follows:
-\begin{itemize}
-\item Random user selection: For this policy, we select $N$ users randomly based on a uniform distribution.
-\item Dispersion maximization selection: The selection of users in this policy depends on selecting $N$ users from the crowd who maximize the dispersion of their locations.
-\end{itemize}
-\subsection{Experiment Variables}
-There are multiple variables that can be controlled to test the behavior of the two-stage querying technique. Table~\ref{table:systemParameters} summarizes the most important.
-
-
 \begin{table}{}
 \centering
 \begin{tabulary}{0.5\textwidth}{|L|}
@@ -153,7 +143,19 @@ the width of the $2D$ spatial matrix. We model the spatial area under investigat
 \label{table:systemParameters}
 \end{table}
 
+
+\section{Experiments}
+To quantify the performance of our technique, we perform multiple experiments with three types of data spread: clustered, uniform and real datasets. In our experiments, we compare our algorithm in the selection of users to two policies as follows:
+\begin{itemize}
+\item Random user selection: For this policy, we select $N$ users randomly based on a uniform distribution.
+\item Dispersion maximization selection: The selection of users in this policy depends on selecting $N$ users from the crowd who maximize the dispersion of their locations.
+\end{itemize}
+\subsection{Experiment Variables}
+There are multiple variables that can be controlled to test the behavior of the two-stage querying technique. Table~\ref{table:systemParameters} summarizes the most important.
+
+
 The environment settings are related to the size of the $2D$ matrix, the number of incidents, the distribution of incidents across the matrix, and the number of resources from which to choose. In all of our experiments, except the case study, we set up the $2D$ matrix as a $10$ by $10$ matrix. We show results for incident count of $50$ and number of resources ($M$) of $100$. We varied the environment settings in our experiments and no noticeable differences were observed in performance. Instead, we focus on varying the query settings to better understand the two-stage technique. In this section, we focus on varying the first stage percentage and leave the variation of the $k$ setting to the following section. We also show results for $t\_setting = 30$ which constitutes $30\%$ of the available resources ($M$). We notice that the gap between the performance of our technique and the other techniques increases when $t\_setting$ decreases and all the techniques converge in performance when $t\_setting$ approaches $M$. \par
+
 We compare the performance of our technique to two alternative selection approache: Random selection and Dispersion Maximization. To do so, we utilize two different metrics: count of nodes queried in the $KNN$ of incidents, and the number of incidents covered by the nodes queried. The two metrics are formally defined as follows.
 \begin{itemize}
 \item Close node count: This is measured as the absolute number of people/resources in the KNN of each incident for all incidents. This is formally represented as follows:
@@ -285,10 +287,11 @@ As a first step, we must parse the Hollaback dataset such that incidents reports
 \label{fig:citiesDistribution}
 \end{figure}
 
-For each of the cities, we generate different variations of uniformly distributed crowd ($M = 100$) across the city. In this kind of analysis, the parameters, matrix dimension and incident count, are not generated by our analysis but rather taken from the dataset. In this case, we update the distance metric in Equation~\ref{ We measure the Close node count and the Incident Coverage for all three querying techniques and plot the results in Figures~\ref{fig: hollaCloseCount} and~\ref{fig: hollaIncCoverage}, respectively. We notice that the Two-stage technique outperforms both the Random and Dispersion Maximization in terms of Close node count for all three cities. In terms of incident coverage, Figure~\ref{fig: hollaIncCoverage} shows that dispersion maximization achieves maximum incident coverage. The figure also shows that the two-stage technique can achieve this maximum by setting the first stage percentage to be $80\%$. Figures~\ref{fig: hollaCloseCount} and~\ref{fig: hollaIncCoverage} suggest that there is an inherent tradeoff between accuracy and coverage under constrained resources which we discuss in detail in later sections. The figures also suggest that the two-stage technique under setting the first stage percentage to be $80\%$, can achieve a balance between accuracy and coverage.
-
-
-
+For each of the cities, we generate different variations of uniformly distributed crowd ($M = 100$) across the city. In this kind of analysis, the parameters, matrix dimension and incident count, are not generated by our analysis but rather taken from the dataset. In this case, we update the distance metric in Equation~\ref{eq:maxDisp} and use the Haversine formula to calculate the great-circle distance between two points as follows:
+\begin{equation} \label{eq:maxDisp2}
+d = 2R*atan2(sqrt(a), sqrt(1-a))
+\end{equation}
+where $a$ is calculated as $ \sin ^2((\Delta \phi)/2 ) + \cos(\phi_1)\cos(\phi_2) * \sin ^2((\Delta \lambda)/2 )$, $\Delta \phi$ and $\Delta \lambda$ are calculated as the radian difference between the latitudes, and longitudes respectively, and $R$ is the Earth's radius (mean radius = 6,371km). We measure the Close node count and the Incident Coverage for all three querying techniques and plot the results in Figures~\ref{fig: hollaCloseCount} and~\ref{fig: hollaIncCoverage}, respectively. We notice that the Two-stage technique outperforms both the Random and Dispersion Maximization in terms of Close node count for all three cities. In terms of incident coverage, Figure~\ref{fig: hollaIncCoverage} shows that dispersion maximization achieves maximum incident coverage. The figure also shows that the two-stage technique can achieve this maximum by setting the first stage percentage to be $80\%$. Figures~\ref{fig: hollaCloseCount} and~\ref{fig: hollaIncCoverage} suggest that there is an inherent tradeoff between accuracy and coverage under constrained resources which we discuss in detail in later sections. The figures also suggest that the two-stage technique under setting the first stage percentage to be $80\%$, can achieve a balance between accuracy and coverage.\par
 \begin{figure}[!h]
 \centering
  \includegraphics[width=9cm ,height=5.5cm]{figuresPng/hollaCloseCnt.png}

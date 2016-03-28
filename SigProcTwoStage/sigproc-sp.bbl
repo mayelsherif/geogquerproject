@@ -10,12 +10,12 @@ E.~Agapie, J.~Teevan, and A.~Monroy-Hern{\'a}ndez.
 \bibitem{akyildiz2002survey}
 I.~F. Akyildiz, W.~Su, Y.~Sankarasubramaniam, and E.~Cayirci.
 \newblock A survey on sensor networks.
-\newblock {\em Communications magazine, IEEE}, 40(8):102--114, 2002.
+\newblock {\em IEEE Communications magazine}, 40(8):102--114, 2002.
 
 \bibitem{blaschke2011collective}
 T.~Blaschke, G.~J. Hay, Q.~Weng, and B.~Resch.
 \newblock Collective sensing: Integrating geospatial technologies to understand
-  urban systems—an overview.
+  urban systems-an overview.
 \newblock {\em Remote Sensing}, 3(8):1743--1776, 2011.
 
 \bibitem{cardone2013fostering}
@@ -23,13 +23,13 @@ G.~Cardone, L.~Foschini, P.~Bellavista, A.~Corradi, C.~Borcea, M.~Talasila, and
   R.~Curtmola.
 \newblock Fostering participaction in smart cities: a geo-social crowdsensing
   platform.
-\newblock {\em Communications Magazine, IEEE}, 51(6):112--119, 2013.
+\newblock {\em IEEE Communications Magazine}, 51(6):112--119, 2013.
 
 \bibitem{ferreira2013visual}
 N.~Ferreira, J.~Poco, H.~T. Vo, J.~Freire, and C.~T. Silva.
 \newblock Visual exploration of big spatio-temporal urban data: A study of new
   york city taxi trips.
-\newblock {\em Visualization and Computer Graphics, IEEE Transactions on},
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics},
   19(12):2149--2158, 2013.
 
 \bibitem{fontugne2013strip}
@@ -55,8 +55,8 @@ J.~Howe.
 \bibitem{krishnamachari2002impact}
 B.~Krishnamachari, D.~Estrin, and S.~Wicker.
 \newblock The impact of data aggregation in wireless sensor networks.
-\newblock In {\em Distributed Computing Systems Workshops, 2002. Proceedings.
-  22nd International Conference on}, pages 575--578. IEEE, 2002.
+\newblock In {\em Proceedings of the 22nd International Conference on
+  Distributed Computing Systems Workshops, 2002}, pages 575--578. IEEE, 2002.
 
 \bibitem{lee2010measuring}
 R.~Lee and K.~Sumiya.
@@ -72,6 +72,19 @@ Y.~Liu, T.~Alexandrova, and T.~Nakajima.
 \newblock In {\em Proceedings of the 22nd international conference on World
   Wide Web}, pages 803--814. International World Wide Web Conferences Steering
   Committee, 2013.
+
+\bibitem{marco2003many}
+D.~Marco, E.~J. Duarte-Melo, M.~Liu, and D.~L. Neuhoff.
+\newblock On the many-to-one transport capacity of a dense wireless sensor
+  network and the compressibility of its data.
+\newblock In {\em Information Processing in Sensor Networks}, pages 1--16.
+  Springer, 2003.
+
+\bibitem{pattem2008impact}
+S.~Pattem, B.~Krishnamachari, and R.~Govindan.
+\newblock The impact of spatial correlation on routing with compression in
+  wireless sensor networks.
+\newblock {\em ACM Transactions on Sensor Networks (TOSN)}, 4(4):24, 2008.
 
 \bibitem{sallai2004acoustic}
 J.~Sallai, G.~Balogh, M.~Maroti, A.~Ledeczi, and B.~Kusy.
